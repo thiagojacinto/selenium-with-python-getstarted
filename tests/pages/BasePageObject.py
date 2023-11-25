@@ -5,6 +5,8 @@ from selenium.webdriver.firefox.options import Options
 class BasePageObject:
     """Base class for PageObject implementations"""
 
+    DEFAULT_TIMEOUT = 5
+
     def __init__(self, driver = None):
         """PageObject constructor to handle the driver instance - creation or reuse"""
 
