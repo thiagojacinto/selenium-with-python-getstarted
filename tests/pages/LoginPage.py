@@ -34,6 +34,10 @@ class LoginPage(BasePageObject):
     def click_on_login(self):
         """Click on login button"""
         self.driver.find_element(By.ID, self.loc_submit_login_button_id).click()
+
+    def is_login_button_visible(self):
+        """Click on login button"""
+        return self.driver.find_element(By.ID, self.loc_submit_login_button_id).is_displayed()
     
     def type_successfull_credentials(self):
         self.type_username(self.valid_username)
