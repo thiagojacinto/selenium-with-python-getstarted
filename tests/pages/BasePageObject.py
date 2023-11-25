@@ -10,6 +10,7 @@ class BasePageObject:
 
         if driver is not None and type(driver) is not str:
             self.driver = driver
+            return
 
         match driver:
             case None:
@@ -39,7 +40,7 @@ class BasePageObject:
             
 
     def get_url(self):
-        return self.driver.current_url()
+        return self.driver.current_url
     
     def close_driver(self):
         """Closes WebDriver connection"""
