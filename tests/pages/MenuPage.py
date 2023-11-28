@@ -10,6 +10,7 @@ class MenuPage(BasePageObject):
     loc_menu_navbar_selector = "nav.bm-item-list"
     loc_close_menu_id = "react-burger-cross-btn"
     loc_logout_button_id = "logout_sidebar_link"
+    loc_cart_icon_selector = "#shopping_cart_container .shopping_cart_badge"
 
     def open_menu(self):
         """From Menu, tap on Menu Icon to open the Menu"""
@@ -30,3 +31,11 @@ class MenuPage(BasePageObject):
         menu_logout_button = self.driver.find_element(By.ID, self.loc_logout_button_id)
         menu_logout_button.click()
 
+
+    def get_cart_icon_count(self) -> int:
+        """Cart Icon items counter number"""
+        cart_counter_value = self.driver.find_element(By.CSS_SELECTOR, self.loc_cart_icon_selector).text
+        return int(cart_counter_value)
+    
+    def click_on_cart_icon(self):
+        self.driver.find_element(By.CSS_SELECTOR, self.loc_cart_icon_selector).click()
