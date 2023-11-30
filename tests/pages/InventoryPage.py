@@ -10,8 +10,7 @@ class InventoryPage(BasePageObject):
 
     URL = "https://www.saucedemo.com/inventory.html"
 
-    loc_inventory_list_selector = "#inventory_container > div.inventory_list"
-    loc_inventory_item_class = "inventory_item"
+    loc_inventory_list_selector = "#inventory_container > div.inventory_list div.inventory_item"
     loc_inventory_item_name_class = "inventory_item_name"
     loc_inventory_item_price_class = "inventory_item_price"
     loc_inventory_item_add_button_selector = "button.btn_primary"
