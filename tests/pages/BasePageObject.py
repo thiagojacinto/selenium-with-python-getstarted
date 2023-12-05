@@ -40,6 +40,8 @@ class BasePageObject:
             case _:
                 raise Exception("Not supported webdriver. Try to use a supported webdriver")
             
+        self.driver.set_window_size(1366, 768)
+            
 
     def get_url(self):
         return self.driver.current_url
