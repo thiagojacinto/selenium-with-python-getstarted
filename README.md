@@ -2,6 +2,16 @@
 
 Automated tests using Python flavor of the Selenium framework.
 
+- [Get started: Selenium + pytest](#get-started-selenium--pytest)
+- [How to install](#how-to-install)
+  - [Initial setup](#initial-setup)
+  - [Configure dependecies](#configure-dependecies)
+- [How to execute tests](#how-to-execute-tests)
+  - [Expected output of test run](#expected-output-of-test-run)
+  - [Selecting a specific browser](#selecting-a-specific-browser)
+  - [Set a default browser to run a specific test](#set-a-default-browser-to-run-a-specific-test)
+
+
 # How to install
 
 ## Initial setup
@@ -42,7 +52,15 @@ Once configured, to execute the tests, go to the project directory then type:
 
 ```bash
 pytest
+
+# You can use pytest -vv for a more verbose test output
 ```
+
+## Expected output of test run
+
+An output like this is expected after the tests are all run:
+
+![](evidencies/EXECUTION-OUTPUT_2023-12-04_22.22.34.png)
 
 ## Selecting a specific browser
 
@@ -58,3 +76,15 @@ Custom options:
   --use-browser=USE_BROWSER
         Define the browser to be executed. Current supported versions: chrome, firefox, safari, headless-chrome, headless-firefox, headless-safari
 ```
+
+## Set a default browser to run a specific test
+
+You can also set a default browser to run the tests by using a custom Pytest's Mark, as the exemple below:
+
+```python
+@pytest.mark.FORCE_BROWSER("firefox")
+def test_successfully_run_with_firefox(...):
+  ...
+```
+
+The test above will be run using the Firefox browser and this mark takes precedence over the CLI argument `--use-browser`, if it is passed.
