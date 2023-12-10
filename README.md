@@ -99,8 +99,8 @@ It's useful to use the powers of `pytest` framework to handle situations where t
 @pytest.mark.parametrize(
         (""), [
             pytest.param(id="default"), 
-            pytest.param(id="firefox", marks=pytest.mark.FORCE_BROWSER("edge")),
-            pytest.param(id="firefox", marks=pytest.mark.FORCE_BROWSER("chrome"))
+            pytest.param(id="edge", marks=pytest.mark.FORCE_BROWSER("edge")),
+            pytest.param(id="chrome", marks=pytest.mark.FORCE_BROWSER("chrome"))
             ]
     )
 def test_successfully_run_with_edge_chrome_and_default_config(...):
