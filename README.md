@@ -10,6 +10,8 @@ Automated tests using Python flavor of the Selenium framework.
   - [Expected output of test run](#expected-output-of-test-run)
   - [Selecting a specific browser](#selecting-a-specific-browser)
   - [Set a default browser to run a specific test](#set-a-default-browser-to-run-a-specific-test)
+  - [Using `pytest` parametrize option to repeat test on different browsers](#using-pytest-parametrize-option-to-repeat-test-on-different-browsers)
+  - [Using containers to run tests](#using-containers-to-run-tests)
 
 
 # How to install
@@ -88,3 +90,39 @@ def test_successfully_run_with_firefox(...):
 ```
 
 The test above will be run using the Firefox browser and this mark takes precedence over the CLI argument `--use-browser`, if it is passed.
+
+## Using `pytest` parametrize option to repeat test on different browsers
+
+It's useful to use the powers of `pytest` framework to handle situations where the specific test case should be run against a variety of different browsers. A way to make it works it's by using `pytest.mark.parametrize` fixture, as the example below:
+
+```python
+@pytest.mark.parametrize(
+        (""), [
+            pytest.param(id="default"), 
+            pytest.param(id="edge", marks=pytest.mark.FORCE_BROWSER("edge")),
+            pytest.param(id="chrome", marks=pytest.mark.FORCE_BROWSER("chrome"))
+            ]
+    )
+def test_successfully_run_with_edge_chrome_and_default_config(...):
+  ...
+```
+The way the example above works is by only applying:
+- an _ID_: to be displayed on the pytest output;
+- the custom `FORCE_BROWSER` mark: to force the use of the specified browser. 
+
+## Using containers to run tests
+
+To rapidly set a development environment, using Docker to run containers is a valid alternative. Documentation for `docker-selenium` is set on the [project official repository](https://github.com/SeleniumHQ/docker-selenium) and it might be a good idea to take some time to read it.
+
+The first steps are condensed on this [Makefile](Makefile), and you could start with the `make help` command to see the basics to: put containers UP or DOWN with Docker, then execute the tests on this infrastructure. All containers configuration are disposed on [compose.yaml](containers/compose.yaml)
+
+```sh
+make help
+# > These are all the avalaible commands ...
+
+make se-docker-up # starts the docker containers set by containers/compose.yaml file
+
+make se-docker-run-tests #Running tests for Firefox, Chrome and Edge browsers from docker containers
+
+make se-docker-down # terminates the docker containers set by containers/compose.yaml file
+```

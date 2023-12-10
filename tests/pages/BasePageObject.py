@@ -1,5 +1,10 @@
+import os
+
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.edge.options import Options as EdgeOptions
+from selenium.webdriver.safari.options import Options as SafariOptions
 
 
 class BasePageObject:
@@ -16,25 +21,44 @@ class BasePageObject:
 
         match driver:
             case None:
-                new_driver_options = Options()
+                new_driver_options = FirefoxOptions()
                 new_driver_options.add_argument("-headless")
                 self.driver = webdriver.Firefox(new_driver_options)
+            case "remote":
+                hostname = os.environ.get("SELENIUM_HOST", "selenium")
+                
+                match hostname.lower():
+                    case "chrome":
+                        new_driver_options = ChromeOptions()
+                    case "firefox":
+                        new_driver_options = FirefoxOptions()
+                    case "edge":
+                        new_driver_options = EdgeOptions()
+                    case _:
+                        new_driver_options = FirefoxOptions()
+                
+                self.driver = webdriver.Remote(
+                        command_executor="http://{}:4444".format(hostname),
+                        options=new_driver_options,
+                        keep_alive=True,
+                    )
+
             case "firefox":
                 self.driver = webdriver.Firefox()
             case "headless-firefox":
-                new_driver_options = Options()
+                new_driver_options = FirefoxOptions()
                 new_driver_options.add_argument("-headless")
                 self.driver = webdriver.Firefox(new_driver_options)
             case "chrome":
                 self.driver = webdriver.Chrome()
             case "headless-chrome":
-                new_driver_options = Options()
+                new_driver_options = ChromeOptions()
                 new_driver_options.add_argument("-headless")
                 self.driver = webdriver.Chrome(new_driver_options)
             case "safari":
                 self.driver = webdriver.Safari()
-            case "headless-firefox":
-                new_driver_options = Options()
+            case "headless-safari":
+                new_driver_options = SafariOptions()
                 new_driver_options.add_argument("-headless")
                 self.driver = webdriver.Firefox(new_driver_options)
             case _:

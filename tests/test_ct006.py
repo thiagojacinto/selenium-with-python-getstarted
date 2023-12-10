@@ -5,6 +5,7 @@ from tests.pages.InventoryPage import InventoryPage
 
 @pytest.mark.parametrize(
         (""), [
+            pytest.param(id="default"), 
             pytest.param(id="firefox", marks=pytest.mark.FORCE_BROWSER("firefox")), 
             pytest.param(id="chrome", marks=pytest.mark.FORCE_BROWSER("chrome")), 
             pytest.param(id="safari", marks=pytest.mark.FORCE_BROWSER("safari"))

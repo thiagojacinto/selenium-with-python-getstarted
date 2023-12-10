@@ -26,9 +26,13 @@ def use_browser_option(request):
     """Fixture to handle the use of argument --use-browser to select"""
     
     force_browser = request.node.get_closest_marker("FORCE_BROWSER")
+    selected_browser = request.config.getoption("--use-browser")
+    
     if force_browser is None:    
-        selected_browser = request.config.getoption("--use-browser")
         return selected_browser
+
+    elif selected_browser.lower() == "remote":
+        pytest.skip(reason="Test to be run on specific browser locally")
     
     return force_browser.args[0]
 

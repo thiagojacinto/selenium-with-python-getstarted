@@ -6,7 +6,12 @@ from tests.pages.CheckoutCompletePage import CheckoutCompletePage
 from tests.pages.CheckoutInformationPage import CheckoutInformationPage
 from tests.pages.CheckoutOverviewPage import CheckoutOverviewPage
 
-@pytest.mark.FORCE_BROWSER("firefox")
+@pytest.mark.parametrize(
+        (""), [
+            pytest.param(id="default"), 
+            pytest.param(id="firefox", marks=pytest.mark.FORCE_BROWSER("firefox"))
+            ]
+    )
 def test_successfully_buy_a_product(start_with_one_product_added):
     cart_page = CartPage(driver = start_with_one_product_added.driver)
     cart_products_list = cart_page.get_cart_items()
