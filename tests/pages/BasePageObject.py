@@ -26,8 +26,9 @@ class BasePageObject:
                 self.driver = webdriver.Firefox(new_driver_options)
             case "remote":
                 hostname = os.environ.get("SELENIUM_HOST", "selenium")
+                host_browser = os.environ.get("SELENIUM_BROWSER", hostname)
                 
-                match hostname.lower():
+                match host_browser.lower():
                     case "chrome":
                         new_driver_options = ChromeOptions()
                     case "firefox":
