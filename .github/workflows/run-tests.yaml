@@ -1,14 +1,20 @@
 name: Run Tests (parallel)
 
-on: [workflow_dispatch]
+on: 
+    workflow_dispatch:
+    pull_request:
+        types:
+            - opened
+            - edited
+        branches:
+            - main
+            - 'releases/**'
 
 jobs:
     test:
         name: Run tests
         runs-on: ubuntu-latest
-
-        container:
-            image: python:3.11.7-alpine3.18
+        container: node:20-bookworm
 
         strategy:
             fail-fast: false
@@ -18,7 +24,9 @@ jobs:
         services:
             selenium:
                 image: selenium/standalone-${{ matrix.browser }}:4.15.0-20231129
-                options: --shm-size=2gb
+                options: --shm-size 2gb
+                ports:
+                    - 4444:4444
                 env:
                     SE_NODE_OVERRIDE_MAX_SESSIONS: true
                     SE_NODE_MAX_SESSIONS: 15
@@ -26,10 +34,16 @@ jobs:
         
         steps:
             - uses: actions/checkout@v4
-            - uses: actions/setup-python@v4
+            - uses: actions/setup-python@v5
               with:
-                python-version: "3.11.7"
-            - run: pip install -r requirements-lock.txt
-            - run: pytest -vv --use-browser remote
+                python-version: '3.11'
+            
+            - name: Install dependencies
+              run: |
+                python -m pip install --upgrade pip
+                python -m pip install -r requirements-lock.txt
+            
+            - name: Test with pytest
+              run: pytest -vv --use-browser remote
               env:
-                SELENIUM_HOST: ${{ matrix.browser }}
+                SELENIUM_BROWSER: ${{ matrix.browser }}

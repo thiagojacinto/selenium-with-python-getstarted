@@ -12,6 +12,7 @@ Automated tests using Python flavor of the Selenium framework.
   - [Set a default browser to run a specific test](#set-a-default-browser-to-run-a-specific-test)
   - [Using `pytest` parametrize option to repeat test on different browsers](#using-pytest-parametrize-option-to-repeat-test-on-different-browsers)
   - [Using containers to run tests](#using-containers-to-run-tests)
+    - [Custom environment variables](#custom-environment-variables)
 
 
 # How to install
@@ -126,3 +127,9 @@ make se-docker-run-tests #Running tests for Firefox, Chrome and Edge browsers fr
 
 make se-docker-down # terminates the docker containers set by containers/compose.yaml file
 ```
+
+### Custom environment variables
+
+The following environment variables are used to and often necessary, depending on what and how the tests should be executed:
+- `SELENIUM_HOST`: Used to set WHERE to point out the WebDriver's API requests to, when using the `--use-browser` is set to **remote**; (introduced)
+- `SELENIUM_BROWSER`: This one refers to what type of browser will be used on the remote test execution. Important to use on GitHub's action workflow (introduced by [#2](https://github.com/thiagojacinto/selenium-with-python-getstarted/issues/2))
